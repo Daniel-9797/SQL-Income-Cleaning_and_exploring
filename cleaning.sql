@@ -175,42 +175,4 @@ GROUP BY u.state_name, city
 ORDER BY ROUND(AVG(mean),1) DESC;
 
 
--- AUTOMATED DATA CLEANING --
-
-DELIMITER $$
-CREATE PROCEDURE data_clean
-BEGIN
--- WE CREATE THE TABLE
-		CREATE TABLE `income_cleaned` (
-		  `row_id` text,
-		  `id` text,
-		  `State_Code` text,
-		  `State_Name` text,
-		  `State_ab` text,
-		  `County` text,
-		  `City` text,
-		  `Place` text,
-		  `Type` text,
-		  `Primary` text,
-		  `Zip_Code` text,
-		  `Area_Code` text,
-		  `ALand` text,
-		  `AWater` text,
-		  `Lat` text,
-		  `Lon` text,
-		  `TimeStamp` TIMESTAMP DEFAULT NULL
-		  KEY `idx_state_name` (`State_Name`(8))
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-        
--- COPY DATA TO NEW TABLE
-
-		INSERT INTO income_cleaned
-        SELECT *, CURRENT_TIMESTAMP
-        FROM income;
-
-END $$
-DELIMITER;
-
-CALL income_cleaned()
-
 
